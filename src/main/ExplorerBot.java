@@ -3,6 +3,8 @@ package main;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.LCD;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
@@ -18,9 +20,13 @@ public class ExplorerBot {
 
      Button.waitForAnyPress();
      LCD.clear();
+     Button.LEDPattern(0);
      
-	 Behavior driveForwardBehavior = new DriveForward();
-	 Behavior detectObstacleBehavior = new DetectObstacle(SensorPort.S1);
+     EV3LargeRegulatedMotor ev3LargeRegulatedMotorRight = new EV3LargeRegulatedMotor(MotorPort.D);
+     EV3LargeRegulatedMotor ev3LargeRegulatedMotorLeft = new EV3LargeRegulatedMotor(MotorPort.A);
+     
+	 Behavior driveForwardBehavior = new DriveForward(ev3LargeRegulatedMotorRight, ev3LargeRegulatedMotorLeft);
+	 Behavior detectObstacleBehavior = new DetectObstacle(SensorPort.S1, ev3LargeRegulatedMotorRight, ev3LargeRegulatedMotorLeft);
 	 Behavior stopRobot = new StopRobot();
 	 Behavior [] behaviors = {driveForwardBehavior, detectObstacleBehavior, stopRobot};
 	 Arbitrator arbitrator = new Arbitrator(behaviors);

@@ -22,8 +22,8 @@ public class StopRobot implements Behavior{
 	public void action() {
 		isSuppressed = false;
 		if (!isSuppressed) {
-	        Sound.beepSequence();
 	        System.out.println("Exit");
+	        Sound.beepSequence();
 	        System.exit(0);		
 		}
 	}
