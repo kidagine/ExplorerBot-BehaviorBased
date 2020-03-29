@@ -1,26 +1,23 @@
 package behaviors;
 
 import lejos.hardware.Button;
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.subsumption.Behavior;
 import lejos.utility.Delay;
 
 public class DriveForward implements Behavior {
 
-    private EV3LargeRegulatedMotor ev3LargeRegulatedMotorRight;
-    private EV3LargeRegulatedMotor ev3LargeRegulatedMotorLeft;
-    private int motorSpeed = 4000;
+	private MovePilot movePilot;
 	private boolean isSuppressed;
 	
 	
-	public DriveForward(EV3LargeRegulatedMotor motorRight,  EV3LargeRegulatedMotor motorLeft) {
-		ev3LargeRegulatedMotorRight = motorRight;
-		ev3LargeRegulatedMotorLeft = motorLeft;
+	public DriveForward(MovePilot movePilot) {
+		this.movePilot = movePilot;
 	}
 	
 	@Override
 	public boolean takeControl() {
-	      return true;
+		return true;
 	}
 
 	@Override
@@ -32,16 +29,12 @@ public class DriveForward implements Behavior {
 	public void action() {		
 		isSuppressed = false;
 	    Button.LEDPattern(4);
-        Delay.msDelay(1000);
+        Delay.msDelay(500);
         Button.LEDPattern(0);
-        ev3LargeRegulatedMotorRight.setAcceleration(motorSpeed);
-		ev3LargeRegulatedMotorLeft.setAcceleration(motorSpeed);
-		ev3LargeRegulatedMotorRight.forward();
-		ev3LargeRegulatedMotorLeft.forward();
+        movePilot.forward();
 	    while (!isSuppressed) {
 	    	Thread.yield();
 	    }	
-	    ev3LargeRegulatedMotorRight.stop();
-	    ev3LargeRegulatedMotorLeft.stop();
+	    movePilot.stop();
 	}
 }
